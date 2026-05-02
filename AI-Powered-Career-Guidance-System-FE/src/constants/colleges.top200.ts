@@ -1,0 +1,20 @@
+export const INDIAN_COLLEGES_TOP200: string[] = [
+  'IIT Bombay', 'IIT Delhi', 'IIT Madras', 'IIT Kanpur', 'IIT Kharagpur', 'IIT Roorkee', 'IIT Guwahati', 'IIT Hyderabad',
+  'IIT (BHU) Varanasi', 'IIT Indore', 'IIT Ropar', 'IIT Mandi', 'IIT Gandhinagar', 'IIT Jodhpur', 'IIT Patna', 'IIT Bhubaneswar',
+  'NIT Trichy', 'NIT Surathkal', 'NIT Warangal', 'NIT Rourkela', 'NIT Calicut', 'NIT Allahabad', 'NIT Jaipur', 'NIT Kurukshetra',
+  'NIT Durgapur', 'NIT Silchar', 'NIT Hamirpur', 'NIT Meghalaya', 'NIT Nagpur (VNIT)', 'NIT Bhopal (MANIT)', 'NIT Jalandhar',
+  'BITS Pilani', 'BITS Goa', 'BITS Hyderabad', 'IIIT Hyderabad', 'IIIT Bangalore', 'IIIT Allahabad', 'IIIT Delhi', 'IIIT Jabalpur',
+  'IIIT Gwalior', 'IIIT Pune', 'IIIT Kancheepuram', 'IIIT Sri City', 'IIIT Kottayam', 'IIIT Vadodara', 'IIIT Nagpur', 'IIIT Ranchi',
+  'Delhi Technological University (DTU)', 'Netaji Subhas University of Technology (NSUT)', 'IIIT-D&M Kancheepuram', 'College of Engineering, Pune (COEP)',
+  'Jadavpur University', 'Anna University - CEG', 'Vellore Institute of Technology (VIT)', 'SRM Institute of Science and Technology',
+  'Amrita Vishwa Vidyapeetham', 'Thapar Institute of Engineering & Technology', 'BITS Mesra', 'Jamia Millia Islamia',
+  'Aligarh Muslim University', 'Jawaharlal Nehru University (JNU)', 'University of Delhi', 'PES University',
+  'RV College of Engineering', 'MS Ramaiah Institute of Technology', 'Manipal Institute of Technology', 'Kalinga Institute of Industrial Technology (KIIT)',
+  'SASTRA University', 'Punjab Engineering College (PEC)', 'Osmania University', 'University of Hyderabad', 'IISc Bangalore',
+  'IISER Pune', 'IISER Kolkata', 'IISER Mohali', 'IISER Bhopal', 'IISER Tirupati', 'IISER Thiruvananthapuram',
+  'IIM Ahmedabad', 'IIM Bangalore', 'IIM Calcutta', 'IIM Indore', 'IIM Lucknow', 'IIM Kozhikode',
+  'SVNIT Surat', 'MNNIT Allahabad', 'HBTU Kanpur', 'UIT RGPV Bhopal', 'LD College of Engineering', 'JNTU Hyderabad',
+  'JNTU Kakinada', 'JNTU Anantapur', 'Andhra University', 'University of Mumbai', 'Savitribai Phule Pune University', 'University of Calcutta',
+  'University of Madras', 'Panjab University', 'GGSIPU Delhi', 'Shiv Nadar University', 'UPES Dehradun', 'Amity University',
+  'Lovely Professional University (LPU)', 'MIT-WPU Pune', 'Symbiosis International University'
+];
