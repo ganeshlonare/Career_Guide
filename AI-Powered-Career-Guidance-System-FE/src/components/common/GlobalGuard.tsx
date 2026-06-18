@@ -62,8 +62,8 @@ const GlobalGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       return;
     }
 
-    // 5) All done -> block returning to assessment/auth/verify/onboarding
-    const disallowCompleted = ['/signup', '/signin/email', '/verify-email', '/onboarding', '/assessment/instructions', '/dashboard/assessment'];
+    // 5) All done -> block returning to auth/verify/onboarding
+    const disallowCompleted = ['/signup', '/signin/email', '/verify-email', '/onboarding'];
     if (disallowCompleted.some((p) => isPathAllowed(path, [p]))) {
       // Prefer dashboard/roadmap as the main app flow per new requirement
       navigate('/dashboard/roadmap', { replace: true });

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { onboardingApi } from "../api/onboarding";
 import CollegeSelect from "./CollegeSelect";
+import AppLogo from "./common/Logo";
 
 // MUI Components
 import Box from "@mui/material/Box";
@@ -95,8 +96,9 @@ const TopBarContent = styled(Box)({
   margin: "0 auto",
 });
 
-const Logo = styled("img")({
-  height: "32px",
+const LogoContainer = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
 });
 
 const LanguageButton = styled(Button)({
@@ -430,27 +432,27 @@ const Onboarding = () => {
         primaryProgrammingLanguage: onb.primaryProgrammingLanguage,
         programmingExpertiseLevel: onb.programmingExpertiseLevel,
       });
-      
+
       // Refresh user data to get updated onboarding status from backend
       try {
         await refresh();
-      } catch {}
-      
+      } catch { }
+
       // Mark onboarding completed locally so ProtectedRoute allows access
       try {
         localStorage.setItem("cg_onboarded", "1");
-      } catch {}
+      } catch { }
       // Signal instructions page to auto-start the quiz preflight
       try {
         localStorage.setItem("cg_autostart_quiz", "1");
-      } catch {}
+      } catch { }
       // After onboarding, go to assessment instructions page (will auto-start)
       navigate("/assessment/instructions", { replace: true });
     } catch (e: any) {
       setError(
         e?.details?.message ||
-          e?.message ||
-          "Failed to save onboarding details."
+        e?.message ||
+        "Failed to save onboarding details."
       );
     } finally {
       setSaving(false);
@@ -1032,12 +1034,9 @@ const Onboarding = () => {
 
       <TopBar>
         <TopBarContent>
-          <Logo
-            src="/logos/AiCareerGuidanceLogo.png"
-            alt="App Logo"
-            onClick={handleLogoClick}
-            style={{ cursor: "pointer" }}
-          />
+          <LogoContainer onClick={handleLogoClick} sx={{ cursor: 'pointer' }}>
+            <AppLogo size="small" />
+          </LogoContainer>
           <LanguageButton startIcon={<LanguageIcon />}>English</LanguageButton>
         </TopBarContent>
       </TopBar>

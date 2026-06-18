@@ -3,84 +3,81 @@ import {
   Box,
   Typography,
   Button,
+  Divider,
   TextField,
   Alert,
-  Divider,
   InputAdornment,
   IconButton,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from "react-router-dom";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { useAuth } from "../hooks/useAuth";
 import GoogleIcon from "@mui/icons-material/Google";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import AppleIcon from "@mui/icons-material/Apple";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import AppLogo from "./common/Logo";
 
-const WaveBackground = styled(Box)({
-  position: "relative",
-  background: `linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(0,0, 0, 0) 100%),
-               url('/purple-bg.svg') no-repeat center center`,
-  backgroundSize: "cover",
+// Styled Components
+const PageContainer = styled(Box)({
   minHeight: "100vh",
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "40px 20px",
+  width: "100%",
 });
 
-const SocialButton = styled(Button)(() => ({
-  width: "48px",
-  height: "48px",
-  minWidth: "48px",
-  borderRadius: "50%",
-  border: "1px solid #e0e0e0",
-  color: "#424446",
-  padding: 0,
-  "&:hover": {
-    backgroundColor: "#f5f5f5",
-    borderColor: "#d0d0d0",
+const FormSection = styled(Box)(({ theme }) => ({
+  flex: "1 1 50%",
+  display: "flex",
+  flexDirection: "column",
+  padding: "40px",
+  backgroundColor: "#FFFFFF",
+  position: "relative",
+  [theme.breakpoints.down("md")]: {
+    flex: "1 1 100%",
+    padding: "24px",
   },
 }));
 
-const SignInCard = styled(Box)({
-  backgroundColor: "#fff",
-  borderRadius: "16px",
-  padding: "32px",
+const FormContainer = styled(Box)({
   width: "100%",
-  maxWidth: "400px",
-  boxShadow: "0 4px 24px rgba(0, 0, 0, 0.1)",
-  position: "relative",
+  maxWidth: "440px",
+  margin: "auto",
 });
 
-const BackButton = styled(Button)({
-  position: "absolute",
-  top: "24px",
-  left: "24px",
-  color: "#666",
-  textTransform: "none",
-  fontSize: "0.9rem",
-  "&:hover": {
-    backgroundColor: "transparent",
-    color: "#462872",
+const BrandSection = styled(Box)(({ theme }) => ({
+  flex: "1 1 50%",
+  background: "linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)",
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  padding: "80px",
+  color: "#FFFFFF",
+  overflow: "hidden",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
   },
+}));
+
+const GlowOrb = styled(Box)({
+  position: "absolute",
+  borderRadius: "50%",
+  filter: "blur(100px)",
+  opacity: 0.5,
+  pointerEvents: "none",
 });
 
 const StyledTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
-    borderRadius: "24px",
-    backgroundColor: "#fff",
-    "& fieldset": {
-      borderColor: "#e0e0e0",
-    },
-    "&:hover fieldset": {
-      borderColor: "#d0d0d0",
+    borderRadius: "12px",
+    backgroundColor: "#F9FAFB",
+    transition: "all 0.2s ease-in-out",
+    "& fieldset": { borderColor: "#E5E7EB" },
+    "&:hover fieldset": { borderColor: "#D1D5DB" },
+    "&.Mui-focused": {
+      backgroundColor: "#FFFFFF",
+      boxShadow: "0 0 0 4px rgba(70, 40, 114, 0.1)",
     },
     "&.Mui-focused fieldset": {
       borderColor: "#462872",
@@ -88,42 +85,47 @@ const StyledTextField = styled(TextField)({
     },
   },
   "& .MuiOutlinedInput-input": {
-    padding: "14px 20px",
+    padding: "16px",
     fontSize: "0.95rem",
   },
 });
 
-const ContinueButton = styled(Button)({
-  borderRadius: "24px",
-  padding: "12px",
-  marginTop: "12px",
-  marginBottom: "12px",
+const MainButton = styled(Button)({
+  borderRadius: "12px",
+  padding: "14px",
   textTransform: "none",
-  fontSize: "0.95rem",
-  fontWeight: 500,
+  fontSize: "1rem",
+  fontWeight: 600,
+  backgroundColor: "#462872",
+  color: "#fff",
+  boxShadow: "0 4px 12px rgba(70, 40, 114, 0.2)",
+  "&:hover": { 
+    backgroundColor: "#3b2260",
+    boxShadow: "0 6px 16px rgba(70, 40, 114, 0.3)",
+  },
 });
 
-const BackToLoginButton = styled(Button)({
-  color: "#462872",
+const SocialButton = styled(Button)({
+  borderRadius: "12px",
+  padding: "14px",
   textTransform: "none",
-  fontSize: "0.9rem",
-  fontWeight: 500,
-  padding: "8px",
+  fontSize: "1rem",
+  fontWeight: 600,
+  color: "#374151",
+  backgroundColor: "#FFFFFF",
+  border: "1px solid #E5E7EB",
   "&:hover": {
-    backgroundColor: "transparent",
-    textDecoration: "none",
-  },
-  "& .MuiButton-startIcon": {
-    marginRight: "4px",
+    backgroundColor: "#F9FAFB",
+    borderColor: "#D1D5DB",
   },
 });
 
-const StyledDivider = styled(Divider)({
-  margin: "12px 0 20px",
-  "&::before, &::after": {
-    borderColor: "#e0e0e0",
-  },
-});
+const FeatureItem = ({ text }: { text: string }) => (
+  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+    <CheckCircleOutlineIcon sx={{ color: '#00E676', fontSize: 24 }} />
+    <Typography sx={{ fontSize: '1.1rem', fontWeight: 400, color: '#E5E7EB' }}>{text}</Typography>
+  </Box>
+);
 
 const SignInWithEmail = () => {
   const navigate = useNavigate();
@@ -144,8 +146,6 @@ const SignInWithEmail = () => {
     setSubmitting(true);
     try {
       await login({ email, password });
-      // Enforce: verification -> onboarding -> quiz
-      // Send user to verify page; GlobalGuard will redirect verified users to onboarding/assessment
       navigate("/verify-email");
     } catch (err: any) {
       setError(err?.message || "Invalid credentials. Please try again.");
@@ -154,7 +154,23 @@ const SignInWithEmail = () => {
     }
   };
 
-  // If already authenticated, redirect based on onboarding/quiz state
+  const handleRecruiterDemo = async () => {
+    setError(null);
+    setSubmitting(true);
+    try {
+      // Set the values in state just so the UI updates
+      setEmail("ganeshlonareofficial@gmail.com");
+      setPassword("ganesh123");
+      
+      await login({ email: "ganeshlonareofficial@gmail.com", password: "ganesh123" });
+      navigate("/verify-email");
+    } catch (err: any) {
+      setError(err?.message || "Demo login failed. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   React.useEffect(() => {
     if (user) {
       const onboarded =
@@ -176,165 +192,137 @@ const SignInWithEmail = () => {
   }, [user, navigate]);
 
   return (
-    <WaveBackground>
-      <BackButton startIcon={<ArrowBackIcon />} onClick={() => navigate("/")}>
-        Go back
-      </BackButton>
-
-      <SignInCard>
-        <Box sx={{ textAlign: "center", mb: 3 }}>
-          <img
-            src="/logos/AiCareerGuidanceLogo.png"
-            alt="App Logo"
-            style={{ height: "32px", marginBottom: "24px" }}
-          />
-          <Typography
-            variant="h5"
-            sx={{ fontWeight: 600, color: "#424446", mb: 3 }}
-          >
-            Sign in with email
-          </Typography>
-        </Box>
-
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-        <Box component="form" onSubmit={onSubmit} noValidate>
-          <StyledTextField
-            fullWidth
-            placeholder="Enter your email address"
-            variant="outlined"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <MailOutlineIcon sx={{ color: "#9e9e9e" }} />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <StyledTextField
-            fullWidth
-            placeholder="Enter your password"
-            variant="outlined"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            sx={{ mt: 1.5 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                    onClick={() => setShowPassword((p) => !p)}
-                    onMouseDown={(e) => e.preventDefault()}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          <ContinueButton
-            type="submit"
-            variant="contained"
-            fullWidth
-            disabled={submitting}
-            sx={{
-              backgroundColor: "#462872",
-              color: "#fff",
-              "&:hover": {
-                backgroundColor: "#3b2260",
-              },
-            }}
-          >
-            {submitting ? "Signing in..." : "Continue"}
-          </ContinueButton>
-
-          {/* Or divider and Google sign-in with matching style */}
-          <StyledDivider>or</StyledDivider>
-          <Button
-            variant="text"
-            fullWidth
-            startIcon={<GoogleIcon sx={{ color: "#462872" }} />}
-            sx={{
-              color: "#462872",
-              textTransform: "none",
-              fontSize: "0.95rem",
-              fontWeight: 600,
-              padding: "10px 12px",
-              "&:hover": {
-                backgroundColor: "transparent",
-                textDecoration: "underline",
-              },
-            }}
-          >
-            Continue with Google
-          </Button>
-
-          {/* Additional social options matching Sign Up */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 2,
-              mb: 3,
-              mt: 1,
-            }}
-          >
-            <SocialButton>
-              <GitHubIcon />
-            </SocialButton>
-            <SocialButton>
-              <AppleIcon />
-            </SocialButton>
-            <SocialButton>
-              <LinkedInIcon />
-            </SocialButton>
-            <SocialButton>
-              <FacebookIcon />
-            </SocialButton>
-          </Box>
-        </Box>
-
-        <Box sx={{ textAlign: "center" }}>
-          <BackToLoginButton
-            startIcon={<KeyboardBackspaceIcon />}
-            onClick={() => navigate("/signup")}
-          >
-            If new, sign up
-          </BackToLoginButton>
-        </Box>
-
-        <Typography
-          variant="caption"
-          sx={{
-            display: "block",
-            textAlign: "center",
-            mt: 2,
-            color: "#666",
-            fontSize: "0.75rem",
-          }}
+    <PageContainer>
+      <FormSection>
+        <Button
+          startIcon={<ArrowBackIcon />}
+          onClick={() => navigate("/")}
+          sx={{ position: 'absolute', top: { xs: 16, md: 32 }, left: { xs: 16, md: 32 }, color: '#6B7280', textTransform: 'none', fontWeight: 600 }}
         >
-          By continuing, you agree to our{" "}
-          <Box component="span" sx={{ color: "#462872", cursor: "pointer" }}>
-            Terms & Conditions
-          </Box>{" "}
-          and{" "}
-          <Box component="span" sx={{ color: "#462872", cursor: "pointer" }}>
-            Privacy Policy
+          Back to home
+        </Button>
+
+        <FormContainer>
+          <Box sx={{ mb: 6, mt: 6 }}>
+            <AppLogo size="medium" />
+            <Typography variant="h4" sx={{ fontWeight: 800, color: "#111827", mt: 4, mb: 1, letterSpacing: '-0.5px' }}>
+              Welcome back
+            </Typography>
+            <Typography sx={{ color: "#6B7280", fontSize: "1rem" }}>
+              Sign in to continue your journey towards success.
+            </Typography>
           </Box>
-        </Typography>
-      </SignInCard>
-    </WaveBackground>
+
+          {!!error && (
+            <Alert severity="error" sx={{ mb: 4, borderRadius: '12px' }}>
+              {error}
+            </Alert>
+          )}
+
+          <SocialButton 
+            fullWidth 
+            onClick={handleRecruiterDemo}
+            sx={{ 
+              mb: 2, 
+              borderColor: '#462872', 
+              color: '#462872',
+              backgroundColor: 'rgba(70, 40, 114, 0.04)',
+              '&:hover': {
+                backgroundColor: 'rgba(70, 40, 114, 0.08)',
+                borderColor: '#462872'
+              }
+            }}
+          >
+            Sign in as Guest (Recruiter Demo)
+          </SocialButton>
+
+          <SocialButton fullWidth startIcon={<GoogleIcon sx={{ color: "#DB4437" }} />} sx={{ mb: 4 }}>
+            Sign in with Google
+          </SocialButton>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+            <Divider sx={{ flex: 1 }} />
+            <Typography sx={{ px: 2, color: '#9CA3AF', fontSize: '0.875rem', fontWeight: 500 }}>
+              or sign in with email
+            </Typography>
+            <Divider sx={{ flex: 1 }} />
+          </Box>
+
+          <Box component="form" onSubmit={onSubmit} noValidate>
+            <StyledTextField
+              label="Email address"
+              type="email"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              sx={{ mb: 2.5 }}
+            />
+            <StyledTextField
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              sx={{ mb: 4 }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((p) => !p)}
+                      onMouseDown={(e) => e.preventDefault()}
+                      edge="end"
+                      sx={{ color: '#9CA3AF' }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <MainButton type="submit" fullWidth disabled={submitting}>
+              {submitting ? "Signing in..." : "Sign in"}
+            </MainButton>
+          </Box>
+
+          <Typography sx={{ textAlign: "center", mt: 4, color: "#6B7280", fontSize: "0.95rem" }}>
+            Don't have an account?{" "}
+            <Box
+              component="span"
+              onClick={() => navigate("/signup")}
+              sx={{ color: "#462872", fontWeight: 600, cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
+            >
+              Sign up
+            </Box>
+          </Typography>
+        </FormContainer>
+      </FormSection>
+
+      <BrandSection>
+        <GlowOrb sx={{ width: '600px', height: '600px', backgroundColor: '#5E35B1', top: '-200px', right: '-200px' }} />
+        <GlowOrb sx={{ width: '500px', height: '500px', backgroundColor: '#FF8E53', bottom: '-200px', left: '-100px', opacity: 0.2 }} />
+        
+        <Box sx={{ position: 'relative', zIndex: 1, maxWidth: '500px', margin: '0 auto' }}>
+          <Typography sx={{ color: '#A78BFA', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', mb: 2, fontSize: '0.85rem' }}>
+            Welcome to the future
+          </Typography>
+          <Typography variant="h2" sx={{ fontWeight: 800, mb: 6, lineHeight: 1.2, letterSpacing: '-1px' }}>
+            Kickstart Your <br />
+            <Box component="span" sx={{ background: 'linear-gradient(135deg, #00C6FF, #0072FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              Career Journey
+            </Box>
+          </Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <FeatureItem text="Find your perfect career path based on skills" />
+            <FeatureItem text="Get AI-powered insights and roadmap" />
+            <FeatureItem text="Track your progress and land your dream job" />
+          </Box>
+        </Box>
+      </BrandSection>
+    </PageContainer>
   );
 };
 

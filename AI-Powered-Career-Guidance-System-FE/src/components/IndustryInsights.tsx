@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import AppLogo from "./common/Logo";
 
 ChartJS.register(
   CategoryScale,
@@ -234,12 +235,9 @@ function IndustryInsights() {
       {/* Header with Logo and Dashboard Button */}
       <div className="w-full bg-opacity-70 backdrop-blur-sm">
         <div className="max-w-[1400px] mx-auto px-8 py-4 flex justify-between items-center">
-          <img
-            src="/logos/AiCareerGuidanceLogo.png"
-            alt="App Logo"
-            className="h-10 w-auto cursor-pointer"
-            onClick={handleLogoClick}
-          />
+          <div onClick={handleLogoClick}>
+            <AppLogo size="small" />
+          </div>
           <button
             onClick={() => navigate("/dashboard/overview")}
             className="px-6 py-2 bg-[#3B2260] text-white rounded-lg font-medium hover:bg-[#2A1745] transition-colors duration-200 flex items-center gap-2 shadow-sm"

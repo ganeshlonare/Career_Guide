@@ -27,26 +27,25 @@ const RoadmapCard: React.FC<RoadmapCardProps> = ({
                   ${position === "left" ? "ml-0" : "ml-auto"}`}
     >
       <div
-        className="absolute top-1/2 -translate-y-1/2 w-[12.5%] h-0.5"
+        className="absolute top-1/2 -translate-y-1/2 h-0.5"
         style={{
           backgroundColor: color,
-          [position === "left" ? "right" : "left"]: "-12.5%",
+          width: "11.111%",
+          [position === "left" ? "right" : "left"]: "-11.111%",
         }}
       />
       <div
-        className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white border-2 z-10"
+        className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white border-2 z-10 box-border"
         style={{
           borderColor: color,
-          [position === "left" ? "right" : "left"]: "-12.5%",
-          transform: `translate(${position === "left" ? "20%" : "-15%"}, -50%)`,
+          [position === "left" ? "right" : "left"]: "calc(-11.111% - 10px)",
         }}
       />
       <div
         className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full z-20"
         style={{
           backgroundColor: color,
-          [position === "left" ? "right" : "left"]: "-12.5%",
-          transform: `translate(${position === "left" ? "-10%" : "15%"}, -50%)`,
+          [position === "left" ? "right" : "left"]: "calc(-11.111% - 5px)",
         }}
       />
 
@@ -300,8 +299,7 @@ const DashboardRoadmap = () => {
 
         {!loading && hasData && (
           <div
-            className="w-full max-w-[1200px] mx-auto relative px-4"
-            style={{ minHeight: "80vh", maxHeight: "120vh", overflowY: "auto" }}
+            className="w-full max-w-[1200px] mx-auto relative px-4 pb-8"
           >
             {/* Vertical Line */}
             <div

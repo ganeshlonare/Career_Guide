@@ -144,9 +144,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapse }) => {
     { path: '/dashboard/roadmap', label: 'Roadmap', icon: <RouteIcon /> },
     { path: '/week-plan', label: 'Learning', icon: <SchoolIcon /> },
     { path: '/assessment/instructions', label: 'Assessment', icon: <AssessmentIcon /> },
-    { path: '/industry-insights', label: 'Industry Insights', icon: <IndustryIcon /> },
+    { path: '/dashboard/industry-insights', label: 'Industry Insights', icon: <IndustryIcon /> },
     { path: '/dashboard/resume-builder', label: 'Resume Builder', icon: <ResumeIcon /> },
-    { path: '/jobs', label: 'Jobs', icon: <IndustryIcon /> },
+    { path: '/dashboard/jobs', label: 'Jobs', icon: <IndustryIcon /> },
     { path: '/dashboard/profile', label: 'Profile', icon: <UserIcon /> },
   ];
 
@@ -229,13 +229,35 @@ const Sidebar: React.FC<SidebarProps> = ({ onCollapse }) => {
       <Box sx={{ position: 'absolute', bottom: 0, width: '100%', borderTop: '1px solid #eee', p: collapsed ? 1 : 2 }}>
         {collapsed ? (
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <IconButton onClick={handleLogout} title="Logout">
+            <IconButton 
+              onClick={handleLogout} 
+              title="Logout"
+              sx={{ 
+                color: '#462872',
+                '&:hover': { backgroundColor: 'rgba(70, 40, 114, 0.08)' }
+              }}
+            >
               <PowerSettingsNewIcon fontSize="small" />
             </IconButton>
           </Box>
         ) : (
           <>
-            <Button variant="contained" color="primary" fullWidth onClick={handleLogout}>
+            <Button 
+              variant="contained" 
+              fullWidth 
+              onClick={handleLogout}
+              sx={{
+                backgroundColor: '#462872',
+                borderRadius: '8px',
+                textTransform: 'none',
+                fontWeight: 500,
+                boxShadow: 'none',
+                '&:hover': {
+                  backgroundColor: '#3a2160',
+                  boxShadow: '0 2px 8px rgba(70, 40, 114, 0.25)',
+                }
+              }}
+            >
               Logout
             </Button>
             <VersionInfo>

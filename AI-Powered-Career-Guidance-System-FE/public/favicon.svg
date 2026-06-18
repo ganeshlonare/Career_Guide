@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5E35B1" />
+      <stop offset="100%" stop-color="#462872" />
+    </linearGradient>
+    <linearGradient id="dotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B6B" />
+      <stop offset="100%" stop-color="#FF8E53" />
+    </linearGradient>
+  </defs>
+  
+  <g transform="translate(50, 50) rotate(45) translate(-50, -50)">
+    <rect x="15" y="15" width="70" height="70" rx="16" fill="url(#bgGrad)" />
+  </g>
+  
+  <circle cx="50" cy="50" r="22" fill="#FFFFFF" />
+  <circle cx="50" cy="50" r="10" fill="url(#dotGrad)" />
+</svg>

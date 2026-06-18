@@ -90,6 +90,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../hooks/useAuth';
 import NotificationPanel from './NotificationPanel';
+import Logo from './common/Logo';
 
 // Styled Components
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -280,25 +281,29 @@ const navigationStructure = {
         title: 'Blog',
         description: 'Career tips & insights',
         icon: <BlogIcon />,
-        path: '/blog'
+        path: '/blog',
+        disabled: true
       },
       {
         title: 'Videos',
         description: 'Educational content',
         icon: <VideoIcon />,
-        path: '/videos'
+        path: '/videos',
+        disabled: true
       },
       {
         title: 'Podcasts',
         description: 'Industry discussions',
         icon: <PodcastIcon />,
-        path: '/podcasts'
+        path: '/podcasts',
+        disabled: true
       },
       {
         title: 'Downloads',
         description: 'Free resources & templates',
         icon: <DownloadIcon />,
-        path: '/downloads'
+        path: '/downloads',
+        disabled: true
       }
     ]
   },
@@ -310,25 +315,29 @@ const navigationStructure = {
         title: 'About Us',
         description: 'Our mission & story',
         icon: <InfoIcon />,
-        path: '/about'
+        path: '/about',
+        disabled: true
       },
       {
         title: 'Team',
         description: 'Meet our experts',
         icon: <TeamIcon />,
-        path: '/team'
+        path: '/team',
+        disabled: true
       },
       {
         title: 'Careers',
         description: 'Join our team',
         icon: <WorkIcon />,
-        path: '/company-careers'
+        path: '/company-careers',
+        disabled: true
       },
       {
         title: 'Contact',
         description: 'Get in touch',
         icon: <ContactIcon />,
-        path: '/contact'
+        path: '/contact',
+        disabled: true
       }
     ]
   }
@@ -347,7 +356,7 @@ const ProductionNavbar = () => {
   
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, login, logout } = useAuth();
 
   const displayName = React.useMemo(() => {
     if (!user) return '';
@@ -370,6 +379,16 @@ const ProductionNavbar = () => {
   const handleLogoClick = () => navigate('/');
   const handleSignUpClick = () => navigate('/signup');
   const handleDashboardClick = () => navigate('/dashboard/overview');
+  
+  const handleRecruiterDemo = async () => {
+    try {
+      await login({ email: "ganeshlonareofficial@gmail.com", password: "ganesh123" });
+      navigate("/dashboard/overview");
+    } catch (err) {
+      console.error("Demo login failed", err);
+    }
+  };
+
   const handleLogout = () => {
     logout();
     navigate('/');
@@ -402,6 +421,7 @@ const ProductionNavbar = () => {
         anchorEl={anchor}
         open={open}
         onClose={onClose}
+        disableScrollLock={true}
         PaperProps={{ 
           sx: { 
             minWidth: 280, 
@@ -420,9 +440,12 @@ const ProductionNavbar = () => {
         {menuData.items.map((item: any, index: number) => (
           <MenuItem 
             key={index}
+            disabled={item.disabled}
             onClick={() => {
-              navigate(item.path);
-              onClose();
+              if (!item.disabled) {
+                navigate(item.path);
+                onClose();
+              }
             }}
             sx={{ py: 1.5 }}
           >
@@ -467,37 +490,13 @@ const ProductionNavbar = () => {
         <StyledContainer>
           <Toolbar disableGutters sx={{ minHeight: '80px' }}>
             {/* Logo */}
-            <LogoContainer onClick={handleLogoClick}>
-              <motion.div
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <img 
-                  src="/logos/AiCareerGuidanceLogo.png" 
-                  alt="AI Career Guidance Logo" 
-                  style={{ height: '45px', width: 'auto' }}
-                />
-              </motion.div>
-              {!isMobile && (
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    ml: 2, 
-                    fontWeight: 700, 
-                    background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
-                  CareerAI
-                </Typography>
-              )}
+            <LogoContainer onClick={handleLogoClick} sx={{ textDecoration: 'none' }}>
+              <Logo size="small" />
             </LogoContainer>
 
             {/* Desktop Navigation */}
             {!isMobile && (
-              <Box sx={{ display: 'flex', alignItems: 'center', ml: 4, gap: 0.5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
                 <NavButton 
                   onClick={handleLogoClick}
                   className={isActiveRoute('/') ? 'active' : ''}
@@ -507,40 +506,10 @@ const ProductionNavbar = () => {
                 </NavButton>
                 
                 <NavButton 
-                  onClick={(e) => setProductAnchor(productAnchor ? null : e.currentTarget)}
-                  endIcon={<ArrowDropDownIcon />}
-                >
-                  Products
-                </NavButton>
-
-                <NavButton 
-                  onClick={(e) => setIndustryAnchor(industryAnchor ? null : e.currentTarget)}
-                  endIcon={<ArrowDropDownIcon />}
-                >
-                  Industries
-                </NavButton>
-
-                <NavButton 
                   onClick={(e) => setResourceAnchor(resourceAnchor ? null : e.currentTarget)}
                   endIcon={<ArrowDropDownIcon />}
                 >
                   Resources
-                </NavButton>
-
-                <NavButton 
-                  onClick={() => navigate('/industry-insights')}
-                  className={isActiveRoute('/industry-insights') ? 'active' : ''}
-                  startIcon={<TrendingUpIcon />}
-                >
-                  Insights
-                </NavButton>
-
-                <NavButton 
-                  onClick={() => navigate('/jobs')}
-                  className={isActiveRoute('/jobs') ? 'active' : ''}
-                  startIcon={<WorkIcon />}
-                >
-                  Jobs
                 </NavButton>
 
                 <NavButton 
@@ -585,8 +554,8 @@ const ProductionNavbar = () => {
                   </Box>
                 ) : (
                   <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-                    <SecondaryButton onClick={() => navigate('/signin')}>
-                      Sign In
+                    <SecondaryButton onClick={handleRecruiterDemo}>
+                      Recruiter Demo
                     </SecondaryButton>
                     <PrimaryButton onClick={handleSignUpClick}>
                       Get Started
@@ -614,6 +583,7 @@ const ProductionNavbar = () => {
         anchorEl={userMenuAnchor}
         open={Boolean(userMenuAnchor)}
         onClose={handleMenuClose}
+        disableScrollLock={true}
         PaperProps={{ sx: { minWidth: 220, mt: 1 } }}
         TransitionComponent={Grow}
       >
@@ -674,51 +644,6 @@ const ProductionNavbar = () => {
                   <ListItemText primary="Home" />
                 </ListItem>
 
-                {/* Products Accordion */}
-                <Accordion sx={{ boxShadow: 'none', '&:before': { display: 'none' } }}>
-                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <ListItemIcon><SchoolIcon /></ListItemIcon>
-                    <ListItemText primary="Products" />
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ pl: 4 }}>
-                    <List sx={{ p: 0 }}>
-                      {navigationStructure.products.items.map((item: any, index: number) => (
-                        <ListItem 
-                          key={index}
-                          button 
-                          onClick={() => { navigate(item.path); setMobileMenuOpen(false); }}
-                          sx={{ pl: 2 }}
-                        >
-                          <ListItemIcon sx={{ minWidth: 32 }}>{item.icon}</ListItemIcon>
-                          <ListItemText primary={item.title} secondary={item.description} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </AccordionDetails>
-                </Accordion>
-
-                {/* Industries Accordion */}
-                <Accordion sx={{ boxShadow: 'none', '&:before': { display: 'none' } }}>
-                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <ListItemIcon><BusinessCenterIcon /></ListItemIcon>
-                    <ListItemText primary="Industries" />
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ pl: 4 }}>
-                    <List sx={{ p: 0 }}>
-                      {navigationStructure.industries.items.map((item: any, index: number) => (
-                        <ListItem 
-                          key={index}
-                          button 
-                          onClick={() => { navigate(item.path); setMobileMenuOpen(false); }}
-                          sx={{ pl: 2 }}
-                        >
-                          <ListItemIcon sx={{ minWidth: 32, color: item.color }}>{item.icon}</ListItemIcon>
-                          <ListItemText primary={item.title} secondary={item.description} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </AccordionDetails>
-                </Accordion>
 
                 {/* Resources Accordion */}
                 <Accordion sx={{ boxShadow: 'none', '&:before': { display: 'none' } }}>
@@ -731,8 +656,14 @@ const ProductionNavbar = () => {
                       {navigationStructure.resources.items.map((item: any, index: number) => (
                         <ListItem 
                           key={index}
-                          button 
-                          onClick={() => { navigate(item.path); setMobileMenuOpen(false); }}
+                          button={!item.disabled as any}
+                          disabled={item.disabled}
+                          onClick={() => { 
+                            if (!item.disabled) {
+                              navigate(item.path); 
+                              setMobileMenuOpen(false); 
+                            }
+                          }}
                           sx={{ pl: 2 }}
                         >
                           <ListItemIcon sx={{ minWidth: 32 }}>{item.icon}</ListItemIcon>
@@ -743,15 +674,6 @@ const ProductionNavbar = () => {
                   </AccordionDetails>
                 </Accordion>
 
-                <ListItem button onClick={() => { navigate('/industry-insights'); setMobileMenuOpen(false); }}>
-                  <ListItemIcon><TrendingUpIcon /></ListItemIcon>
-                  <ListItemText primary="Industry Insights" />
-                </ListItem>
-
-                <ListItem button onClick={() => { navigate('/jobs'); setMobileMenuOpen(false); }}>
-                  <ListItemIcon><WorkIcon /></ListItemIcon>
-                  <ListItemText primary="Jobs" />
-                </ListItem>
 
                 {/* Company Accordion */}
                 <Accordion sx={{ boxShadow: 'none', '&:before': { display: 'none' } }}>
@@ -764,8 +686,14 @@ const ProductionNavbar = () => {
                       {navigationStructure.company.items.map((item: any, index: number) => (
                         <ListItem 
                           key={index}
-                          button 
-                          onClick={() => { navigate(item.path); setMobileMenuOpen(false); }}
+                          button={!item.disabled as any}
+                          disabled={item.disabled}
+                          onClick={() => { 
+                            if (!item.disabled) {
+                              navigate(item.path); 
+                              setMobileMenuOpen(false); 
+                            }
+                          }}
                           sx={{ pl: 2 }}
                         >
                           <ListItemIcon sx={{ minWidth: 32 }}>{item.icon}</ListItemIcon>
@@ -805,8 +733,8 @@ const ProductionNavbar = () => {
               {/* Mobile Auth */}
               {!user && (
                 <Box sx={{ mt: 3, pt: 3, borderTop: '1px solid' }}>
-                  <SecondaryButton onClick={() => { navigate('/signin'); setMobileMenuOpen(false); }} fullWidth sx={{ mb: 2 }}>
-                    Sign In
+                  <SecondaryButton onClick={() => { handleRecruiterDemo(); setMobileMenuOpen(false); }} fullWidth sx={{ mb: 2 }}>
+                    Recruiter Demo
                   </SecondaryButton>
                   <PrimaryButton onClick={() => { navigate('/signup'); setMobileMenuOpen(false); }} fullWidth>
                     Get Started

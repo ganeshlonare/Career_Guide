@@ -4,10 +4,10 @@ import { styled } from "@mui/material/styles";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import xpIcon from "../../assets/xp-icon.svg";
-import profileImage from "./image.png";
 import StreakIntroModal from "./StreakIntroModal";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import AppLogo from "../common/Logo";
 
 const NavbarContainer = styled(Box)({
   height: "70px",
@@ -27,10 +27,6 @@ const LogoSection = styled(Box)({
   display: "flex",
   alignItems: "center",
   minWidth: "180px",
-});
-
-const Logo = styled("img")({
-  height: "32px",
 });
 
 const CenterSection = styled(Box)({
@@ -85,11 +81,7 @@ const StatIconButton = styled(Box)({
   },
 });
 
-const UserSection = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-});
+
 
 interface DashboardNavbarProps {
   userName: string;
@@ -106,7 +98,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
 }) => {
   const [streakModalOpen, setStreakModalOpen] = useState(false);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const handleOpenStreakModal = () => {
     setStreakModalOpen(true);
@@ -136,13 +128,8 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
   return (
     <>
       <NavbarContainer>
-        <LogoSection>
-          <Logo
-            src="/logos/AiCareerGuidanceLogo.png"
-            alt="App Logo"
-            onClick={handleLogoClick}
-            style={{ cursor: "pointer" }}
-          />
+        <LogoSection onClick={handleLogoClick} sx={{ cursor: 'pointer' }}>
+          <AppLogo size="small" />
         </LogoSection>
 
         <CenterSection>
@@ -161,7 +148,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
                   fontSize: "16px",
                 }}
               >
-                📚
+                🎓
               </Box>
               <Typography
                 sx={{
@@ -171,11 +158,8 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
                   letterSpacing: "-0.01em",
                 }}
               >
-                Software Development - Job Assistance
+                CareerAI Workspace
               </Typography>
-              <ChevronRightIcon
-                sx={{ color: "#666", fontSize: "20px", ml: 0.5 }}
-              />
             </Box>
           </CourseBox>
         </CenterSection>
@@ -209,27 +193,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
             </Typography>
           </StatBox>
 
-          <UserSection>
-            <Typography
-              sx={{ fontSize: "0.9rem", color: "#424446", fontWeight: 500 }}
-            >
-              Hi, {userName}
-            </Typography>
-            <Avatar
-              src={profileImage}
-              alt={userName}
-              sx={{
-                width: 38,
-                height: 38,
-              }}
-            />
-            <IconButton size="small" sx={{ padding: 0 }}>
-              <ChevronRightIcon sx={{ fontSize: "20px", color: "#666" }} />
-            </IconButton>
-            <Button variant="text" color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
-          </UserSection>
+
         </RightSection>
       </NavbarContainer>
 

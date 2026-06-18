@@ -8,6 +8,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Discord } from "./Icons/Discord";
+import Logo from './common/Logo';
 
 const FooterContainer = styled(Box)({
   // backgroundColor: '#f7f5fb',
@@ -102,11 +103,9 @@ const Footer = () => {
         <FooterGrid>
           {/* Branding & Status */}
           <Box>
-            <img
-              src="/logos/AiCareerGuidanceLogo.png"
-              alt="App Logo"
-              style={{ height: "32px" }}
-            />
+            <Box sx={{ mb: 2 }}>
+              <Logo size="small" />
+            </Box>
             <Typography
               sx={{
                 mt: 3,

@@ -22,6 +22,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import YouTube from "react-youtube";
 import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
+import AppLogo from "./common/Logo";
 import { weeklyPlanApi } from "../api/weeklyPlan";
 import { roadmapApi } from "../api/roadmap";
 import { assessmentApi } from "../api/assessment";
@@ -252,12 +254,9 @@ const WeekPlan = () => {
       {/* Top Navigation Bar */}
       <div className="h-20 border-b border-gray-200 flex items-center px-8 bg-white/95 backdrop-blur-sm sticky top-0 z-10">
         <div className="flex items-center gap-6 flex-1">
-          <img
-            src="/logos/AiCareerGuidanceLogo.png"
-            alt="App Logo"
-            className="h-9 cursor-pointer"
-            onClick={handleLogoClick}
-          />
+          <Box sx={{ transform: 'scale(0.85)', transformOrigin: 'left center', cursor: 'pointer' }} onClick={handleLogoClick}>
+            <AppLogo size="small" />
+          </Box>
           <div className="flex items-center gap-3">
             <ArrowBackIcon
               onClick={handleClick}
@@ -297,7 +296,7 @@ const WeekPlan = () => {
       <div className="flex flex-1 relative">
         {/* Sidebar */}
         <div className="w-[480px] border-r border-gray-200 overflow-hidden flex flex-col sticky top-20 h-[calc(100vh-5rem)] bg-white/95 backdrop-blur-sm">
-          <div className="overflow-y-auto flex-1">
+          <div className="overflow-y-auto flex-1 hide-scrollbar">
             {loading ? (
               <div className="p-6">
                 <div className="flex items-center gap-2 text-gray-600">
@@ -415,67 +414,78 @@ const WeekPlan = () => {
                   >
                     <AccordionSummary
                       expandIcon={
-                        <ExpandMoreIcon className="text-2xl text-gray-600" />
+                        <ExpandMoreIcon className="text-[#462872]" />
                       }
-                      className={`relative py-8 px-8 hover:bg-gray-50 transition-colors duration-200 ${
-                        expanded === `module${module.id}` ? "bg-gray-50" : ""
+                      className={`relative py-5 px-6 hover:bg-[rgba(70,40,114,0.04)] transition-colors duration-200 ${
+                        expanded === `module${module.id}` ? "bg-[rgba(70,40,114,0.02)]" : ""
                       }`}
                     >
                       <div
                         className={`absolute left-0 top-0 w-1 h-full ${
-                          module.completed ? "bg-emerald-500" : "bg-gray-300"
+                          module.completed ? "bg-[#462872]" : "bg-transparent"
                         }`}
                       />
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-xl font-semibold text-gray-800">
+                      <div className="flex flex-col">
+                        <h3 className={`text-[1.1rem] font-semibold ${expanded === `module${module.id}` ? 'text-[#462872]' : 'text-gray-800'}`}>
                           {module.title}
                         </h3>
                         {module.subtitle ? (
-                          <p className="text-[15px] text-gray-500 font-normal">
+                          <p className="text-[0.9rem] text-gray-500 font-medium mt-1">
                             {module.subtitle}
                           </p>
-                        ) : null}
+                        ) : (
+                          <p className="text-[0.85rem] text-gray-500 font-medium mt-1 opacity-80">
+                            {module.lessons.length} {module.lessons.length === 1 ? 'lesson' : 'lessons'}
+                          </p>
+                        )}
                       </div>
                     </AccordionSummary>
                     {module.lessons.length > 0 && (
-                      <AccordionDetails className="px-8 pb-8">
-                        <div className="flex flex-col gap-5">
-                          {module.lessons.map((lesson, index) => (
-                            <div
-                              key={lesson.id}
-                              className={`flex items-center gap-5 py-4 pl-6 pr-4 relative cursor-pointer rounded-xl transition-all duration-200 ${
-                                currentLessonId === lesson.id
-                                  ? "bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 hover:from-blue-50 hover:to-indigo-50"
-                                  : "hover:bg-gray-50 border border-transparent"
-                              }`}
-                              onClick={() => setCurrentLessonId(lesson.id)}
-                            >
-                              {/* Vertical connecting line */}
-                              {index < module.lessons.length - 1 && (
-                                <div
-                                  className={`absolute left-[27px] top-10 w-0.5 h-full ${
-                                    lesson.completed
-                                      ? "bg-emerald-400"
-                                      : "bg-gray-200"
-                                  }`}
-                                />
-                              )}
-
-                              {/* Task circle and content */}
+                      <AccordionDetails className="p-0 pb-2">
+                        <div className="relative flex flex-col before:content-[''] before:absolute before:left-[39px] before:top-6 before:bottom-6 before:w-[2px] before:bg-gray-100">
+                          {module.lessons.map((lesson, index) => {
+                            const isCurrent = currentLessonId === lesson.id;
+                            return (
                               <div
-                                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center relative z-10 transition-all duration-200 ${
-                                  lesson.completed
-                                    ? "bg-emerald-500 shadow-md"
-                                    : "bg-gray-300 shadow-sm"
+                                key={lesson.id}
+                                className={`flex items-center gap-4 py-3 pr-6 pl-6 relative cursor-pointer transition-all duration-200 group ${
+                                  isCurrent ? "bg-[rgba(70,40,114,0.03)]" : "hover:bg-gray-50"
                                 }`}
+                                onClick={() => setCurrentLessonId(lesson.id)}
                               >
-                                <CheckCircleIcon className="text-white text-sm" />
+                                <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${isCurrent ? 'bg-[#462872]' : 'bg-transparent group-hover:bg-gray-200'} transition-colors`} />
+
+                                <div className="relative z-10 flex items-center justify-center w-6 h-6 ml-1 flex-shrink-0 bg-white">
+                                  <div
+                                    className={`w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300 border-[2px] ${
+                                      lesson.completed
+                                        ? "bg-[#462872] border-[#462872]"
+                                        : isCurrent
+                                        ? "bg-white border-[#462872] shadow-[0_0_0_4px_rgba(70,40,114,0.1)]"
+                                        : "bg-white border-gray-300 group-hover:border-gray-400"
+                                    }`}
+                                  >
+                                    {lesson.completed && (
+                                      <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                      </svg>
+                                    )}
+                                  </div>
+                                </div>
+                                <span
+                                  className={`text-[0.95rem] leading-snug ${
+                                    isCurrent
+                                      ? 'text-[#462872] font-semibold'
+                                      : lesson.completed
+                                      ? 'text-gray-500 font-medium'
+                                      : 'text-gray-700 font-medium group-hover:text-gray-900'
+                                  }`}
+                                >
+                                  {lesson.title}
+                                </span>
                               </div>
-                              <span className="text-[16px] text-gray-700 font-medium leading-relaxed">
-                                {lesson.title}
-                              </span>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       </AccordionDetails>
                     )}
@@ -658,6 +668,13 @@ style.textContent = `
   }
   .animation-delay-4000 {
     animation-delay: 4s;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 `;
 document.head.appendChild(style);

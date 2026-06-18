@@ -2,6 +2,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { alpha } from '@mui/material';
 import ProductionNavbar from './components/ProductionNavbar';
 import ModernHero from './components/ModernHero';
 import SignUp from './components/SignUp';
@@ -15,8 +16,18 @@ import WeekPlan from './components/WeekPlan';
 import DashboardOverview from './components/DashboardOverview';
 import DashboardRoadmap from './components/dashboard/DashboardRoadmap';
 import Profile from './components/dashboard/Profile';
+import ComingSoon from './components/dashboard/ComingSoon';
+import Mentors from './components/dashboard/Mentors';
+import Support from './components/dashboard/Support';
+import Settings from './components/dashboard/Settings';
 import ResumeBuilder from './components/ResumeBuilder';
 import Footer from './components/Footer';
+import ProcessTimeline from './components/ProcessTimeline';
+import ProductShowcase from './components/ProductShowcase';
+import ComparisonSection from './components/ComparisonSection';
+import WhyChooseUs from './components/WhyChooseUs';
+import FAQSection from './components/FAQSection';
+import FinalCTA from './components/FinalCTA';
 import IndustryInsights from './components/IndustryInsights';
 import Jobs from './components/Jobs';
 import { AuthProvider } from './context/AuthContext';
@@ -109,8 +120,35 @@ const theme = createTheme({
 
 const HomePage = () => (
   <>
-    <ProductionNavbar />
-    <ModernHero />
+    <Box sx={{ 
+      position: 'relative', 
+      backgroundColor: '#FAFAFA',
+      minHeight: '100vh',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        opacity: 0.6,
+        backgroundSize: '60px 60px',
+        backgroundImage: `linear-gradient(to right, ${alpha('#462872', 0.08)} 1px, transparent 1px), linear-gradient(to bottom, ${alpha('#462872', 0.08)} 1px, transparent 1px)`,
+        pointerEvents: 'none',
+        zIndex: 0,
+      }
+    }}>
+      <ProductionNavbar />
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
+        <ModernHero />
+        <ComparisonSection />
+        <ProductShowcase />
+        <ProcessTimeline />
+        <WhyChooseUs />
+        <FAQSection />
+        <FinalCTA />
+      </Box>
+    </Box>
     <Footer />
   </>
 );
@@ -137,8 +175,6 @@ function App() {
                 <Route path="/assessment/instructions" element={<AssessmentInstructions />} />
                 <Route path="/roadmap" element={<Roadmap />} />
                 <Route path="/week-plan" element={<WeekPlan />} />
-                <Route path="/industry-insights" element={<IndustryInsights />} />
-                <Route path="/jobs" element={<Jobs />} />
 
                 <Route element={<ProtectedRoute />}>
                   <Route path="/dashboard/assessment" element={<Quiz />} />
@@ -152,7 +188,25 @@ function App() {
                     <Route index element={<Profile />} />
                   </Route>
                   <Route path="/dashboard/resume-builder" element={<DashboardOverview />}>
-                    <Route index element={<ResumeBuilder />} />
+                    <Route index element={<ComingSoon />} />
+                  </Route>
+                  <Route path="/dashboard/industry-insights" element={<DashboardOverview />}>
+                    <Route index element={<ComingSoon />} />
+                  </Route>
+                  <Route path="/dashboard/jobs" element={<DashboardOverview />}>
+                    <Route index element={<ComingSoon />} />
+                  </Route>
+                  <Route path="/dashboard/community" element={<DashboardOverview />}>
+                    <Route index element={<ComingSoon />} />
+                  </Route>
+                  <Route path="/dashboard/mentors" element={<DashboardOverview />}>
+                    <Route index element={<Mentors />} />
+                  </Route>
+                  <Route path="/dashboard/support" element={<DashboardOverview />}>
+                    <Route index element={<Support />} />
+                  </Route>
+                  <Route path="/dashboard/settings" element={<DashboardOverview />}>
+                    <Route index element={<Settings />} />
                   </Route>
                 </Route>
               </Routes>
