@@ -3,6 +3,7 @@ package com.career.guide.backend.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class EmailService {
 		this.frontendUrl = frontendUrl;
 	}
 
+	@Async
 	public void sendVerificationEmail(String email, String token) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(email);
@@ -27,6 +29,7 @@ public class EmailService {
 		mailSender.send(message);
 	}
 
+	@Async
 	public void sendPasswordResetEmail(String email, String token) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(email);
