@@ -47,7 +47,11 @@ public class AuthService {
 		user.setVerified(false);
 		user.setVerificationToken(UUID.randomUUID().toString());
 		userRepository.save(user);
-		emailService.sendVerificationEmail(user.getEmail(), user.getVerificationToken());
+		try {
+			emailService.sendVerificationEmail(user.getEmail(), user.getVerificationToken());
+		} catch (Exception e) {
+			System.err.println("Warning: Failed to send verification email (likely due to cloud provider SMTP blocks): " + e.getMessage());
+		}
 		return buildAuthResponse(user);
 	}
 
