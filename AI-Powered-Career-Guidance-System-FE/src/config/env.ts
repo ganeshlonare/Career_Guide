@@ -1,4 +1,4 @@
-export const API_BASE_URL: string = (import.meta.env.VITE_API_BASE_URL as string) || 'http://localhost:8080';
+export const API_BASE_URL: string = (import.meta.env.VITE_API_BASE_URL as string) || (import.meta.env.DEV ? 'http://localhost:8080' : '');
 
 export const STORAGE_KEYS = {
   authToken: 'cg_auth_token',

@@ -5,7 +5,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import xpIcon from "../../assets/xp-icon.svg";
 import StreakIntroModal from "./StreakIntroModal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import AppLogo from "../common/Logo";
 
@@ -128,7 +128,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
   return (
     <>
       <NavbarContainer>
-        <LogoSection onClick={handleLogoClick} sx={{ cursor: 'pointer' }}>
+        <LogoSection component={Link} to="/" sx={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>
           <AppLogo size="small" />
         </LogoSection>
 
