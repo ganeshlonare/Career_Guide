@@ -9,11 +9,14 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class OllamaConfig {
 
-    @Value("${ollama.base-url:http://localhost:11434}")
+    @Value("${ollama.base-url}")
     private String ollamaBaseUrl;
 
-    @Value("${ollama.model:qwen2.5:1.5b}")
+    @Value("${ollama.model}")
     private String ollamaModel;
+
+    @Value("${ollama.api-key:}")
+    private String apiKey;
 
     @Bean
     public RestTemplate restTemplate() {
@@ -22,6 +25,6 @@ public class OllamaConfig {
 
     @Bean
     public OllamaClient ollamaClient(RestTemplate restTemplate) {
-        return new OllamaClient(restTemplate, ollamaBaseUrl, ollamaModel);
+        return new OllamaClient(restTemplate, ollamaBaseUrl, ollamaModel, apiKey);
     }
 }

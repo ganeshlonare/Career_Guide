@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WeeklyPlanRepository extends JpaRepository<WeeklyPlan, Long> {
-	List<WeeklyPlan> findByUserOrderByWeekNumber(User user);
-	List<WeeklyPlan> findByRoadmapOrderByWeekNumber(PersonalizedRoadmap roadmap);
+	Optional<WeeklyPlan> findByUser(User user);
+	Optional<WeeklyPlan> findByRoadmap(PersonalizedRoadmap roadmap);
 	Optional<WeeklyPlan> findByUserAndStatus(User user, WeekStatus status);
 }
 

@@ -1,11 +1,12 @@
 package com.career.guide.backend.entity;
 
 import com.career.guide.backend.entity.enums.UserRole;
-import com.career.guide.backend.entity.insights.IndustryInsight;
+
 import com.career.guide.backend.entity.progress.UserProgress;
 import com.career.guide.backend.entity.quiz.QuizResult;
 import com.career.guide.backend.entity.roadmap.PersonalizedRoadmap;
 import com.career.guide.backend.entity.roadmap.WeeklyPlan;
+import com.career.guide.backend.entity.roadmap.PreparationPlan;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -68,18 +69,17 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<QuizResult> quizResults;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<PersonalizedRoadmap> roadmaps;
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private PersonalizedRoadmap roadmap;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<WeeklyPlan> weeklyPlans;
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private WeeklyPlan weeklyPlan;
+
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private PreparationPlan preparationPlan;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserProgress> progressRecords;
-
-	@ManyToOne
-	@JoinColumn(name = "industry_id")
-	private IndustryInsight industry;
 
 	// ✅ NEW METHOD: Get full name (firstName + lastName)
 	public String getName() {

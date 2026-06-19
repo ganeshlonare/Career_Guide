@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  IconButton,
   Button,
   Rating,
   TextField,
@@ -11,15 +10,8 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import FastForwardIcon from "@mui/icons-material/FastForward";
-import FastRewindIcon from "@mui/icons-material/FastRewind";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SettingsIcon from "@mui/icons-material/Settings";
-import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import YouTube from "react-youtube";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
@@ -46,7 +38,7 @@ const initialModuleData: ModuleData[] = [];
 
 const WeekPlan = () => {
   const activeTab = "rating";
-  const [expanded, setExpanded] = useState<string | false>("module2");
+  const [expanded, setExpanded] = useState<string[]>([]);
   const [moduleData, setModuleData] = useState<ModuleData[]>(initialModuleData);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -126,7 +118,7 @@ const WeekPlan = () => {
         // Initialize selection to first lesson if present
         if (mapped.length && mapped[0].lessons.length) {
           setCurrentLessonId(mapped[0].lessons[0].id);
-          setExpanded(`module${mapped[0].id}`);
+          setExpanded([`module${mapped[0].id}`]);
         }
       } catch (e: any) {
         setError(
@@ -181,9 +173,41 @@ const WeekPlan = () => {
     return false;
   };
 
+  const hasNextLesson = useMemo(() => {
+    let foundCurrent = false;
+    for (const module of moduleData) {
+      for (const lesson of module.lessons) {
+        if (foundCurrent) return true;
+        if (lesson.id === currentLessonId) foundCurrent = true;
+      }
+    }
+    return false;
+  }, [moduleData, currentLessonId]);
+
+  const handleNextLesson = () => {
+    handleLessonComplete(true);
+    let foundCurrent = false;
+    for (const module of moduleData) {
+      for (const lesson of module.lessons) {
+        if (foundCurrent) {
+          setCurrentLessonId(lesson.id);
+          setExpanded((prev) =>
+            prev.includes(`module${module.id}`) ? prev : [...prev, `module${module.id}`]
+          );
+          return;
+        }
+        if (lesson.id === currentLessonId) {
+          foundCurrent = true;
+        }
+      }
+    }
+  };
+
   const handleAccordionChange =
     (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
+      setExpanded((prev) =>
+        isExpanded ? [...prev, panel] : prev.filter((p) => p !== panel)
+      );
     };
 
   // Determine current lesson and YouTube video id
@@ -219,7 +243,7 @@ const WeekPlan = () => {
     playerVars: {
       autoplay: 0,
       modestbranding: 1,
-      controls: 0,
+      controls: 1,
       showinfo: 0,
       rel: 0,
     },
@@ -296,7 +320,7 @@ const WeekPlan = () => {
       <div className="flex flex-1 relative">
         {/* Sidebar */}
         <div className="w-[480px] border-r border-gray-200 overflow-hidden flex flex-col sticky top-20 h-[calc(100vh-5rem)] bg-white/95 backdrop-blur-sm">
-          <div className="overflow-y-auto flex-1 hide-scrollbar">
+          <div className="overflow-y-auto flex-1 hide-scrollbar pb-24">
             {loading ? (
               <div className="p-6">
                 <div className="flex items-center gap-2 text-gray-600">
@@ -376,7 +400,7 @@ const WeekPlan = () => {
                           setModuleData(mapped);
                           if (mapped.length && mapped[0].lessons.length) {
                             setCurrentLessonId(mapped[0].lessons[0].id);
-                            setExpanded(`module${mapped[0].id}`);
+                            setExpanded([`module${mapped[0].id}`]);
                           }
                         } catch (err: any) {
                           setError(
@@ -399,7 +423,7 @@ const WeekPlan = () => {
               moduleData.map((module) => (
                 <div key={module.id}>
                   <Accordion
-                    expanded={expanded === `module${module.id}`}
+                    expanded={expanded.includes(`module${module.id}`)}
                     onChange={handleAccordionChange(`module${module.id}`)}
                     className="bg-transparent shadow-none before:hidden border-b border-gray-100 last:border-b-0"
                     sx={{
@@ -417,7 +441,7 @@ const WeekPlan = () => {
                         <ExpandMoreIcon className="text-[#462872]" />
                       }
                       className={`relative py-5 px-6 hover:bg-[rgba(70,40,114,0.04)] transition-colors duration-200 ${
-                        expanded === `module${module.id}` ? "bg-[rgba(70,40,114,0.02)]" : ""
+                        expanded.includes(`module${module.id}`) ? "bg-[rgba(70,40,114,0.02)]" : ""
                       }`}
                     >
                       <div
@@ -426,7 +450,7 @@ const WeekPlan = () => {
                         }`}
                       />
                       <div className="flex flex-col">
-                        <h3 className={`text-[1.1rem] font-semibold ${expanded === `module${module.id}` ? 'text-[#462872]' : 'text-gray-800'}`}>
+                        <h3 className={`text-[1.1rem] font-semibold ${expanded.includes(`module${module.id}`) ? 'text-[#462872]' : 'text-gray-800'}`}>
                           {module.title}
                         </h3>
                         {module.subtitle ? (
@@ -503,23 +527,37 @@ const WeekPlan = () => {
             <span className="text-lg text-gray-800 font-medium">
               {currentLesson?.title || "Lecture"}
             </span>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={getCurrentLessonStatus()}
-                  onChange={(e) => handleLessonComplete(e.target.checked)}
+            <div className="flex items-center gap-6">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={getCurrentLessonStatus()}
+                    onChange={(e) => handleLessonComplete(e.target.checked)}
+                    sx={{
+                      "&.Mui-checked": {
+                        color: "#462872",
+                      },
+                    }}
+                  />
+                }
+                label={
+                  <span className="text-gray-700 font-medium">Mark Complete</span>
+                }
+                className="select-none"
+              />
+              {hasNextLesson && (
+                <Button
+                  variant="contained"
+                  onClick={handleNextLesson}
                   sx={{
-                    "&.Mui-checked": {
-                      color: "#462872",
-                    },
+                    backgroundColor: "#462872",
+                    "&:hover": { backgroundColor: "#3b2260" },
                   }}
-                />
-              }
-              label={
-                <span className="text-gray-700 font-medium">Mark Complete</span>
-              }
-              className="select-none"
-            />
+                >
+                  Next Video
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Video Section */}
@@ -532,48 +570,7 @@ const WeekPlan = () => {
                   <span>No video link available for this item.</span>
                 </div>
               )}
-              <div className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-gradient-to-t from-black/80 to-transparent flex items-center gap-3 text-white">
-                <IconButton
-                  size="small"
-                  className="text-white hover:text-[#462872]"
-                >
-                  <FastRewindIcon />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  className="text-white hover:text-[#462872]"
-                >
-                  <PlayArrowIcon />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  className="text-white hover:text-[#462872]"
-                >
-                  <FastForwardIcon />
-                </IconButton>
-                <span className="text-sm mx-2">18:46 / 1:41:02</span>
-                <div className="flex-1 h-1 bg-white/20 rounded-full cursor-pointer">
-                  <div className="h-full w-[40%] bg-[#462872] rounded-full" />
-                </div>
-                <IconButton
-                  size="small"
-                  className="text-white hover:text-[#462872]"
-                >
-                  <VolumeUpIcon />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  className="text-white hover:text-[#462872]"
-                >
-                  <SettingsIcon />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  className="text-white hover:text-[#462872]"
-                >
-                  <OpenInFullIcon />
-                </IconButton>
-              </div>
+
             </div>
 
             {/* Tabs */}

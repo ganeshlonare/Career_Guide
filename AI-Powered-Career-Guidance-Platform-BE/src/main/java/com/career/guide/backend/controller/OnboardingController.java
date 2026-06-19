@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/onboarding")
+@RequestMapping("/onboarding")
 public class OnboardingController {
 
 	private final OnboardingService onboardingService;

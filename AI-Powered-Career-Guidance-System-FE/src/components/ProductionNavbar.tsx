@@ -347,13 +347,13 @@ const ProductionNavbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-      const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
+  const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
   const [productAnchor, setProductAnchor] = useState<null | HTMLElement>(null);
   const [industryAnchor, setIndustryAnchor] = useState<null | HTMLElement>(null);
   const [resourceAnchor, setResourceAnchor] = useState<null | HTMLElement>(null);
   const [companyAnchor, setCompanyAnchor] = useState<null | HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const { user, login, logout } = useAuth();
@@ -379,10 +379,10 @@ const ProductionNavbar = () => {
   const handleLogoClick = () => navigate('/');
   const handleSignUpClick = () => navigate('/signup');
   const handleDashboardClick = () => navigate('/dashboard/overview');
-  
+
   const handleRecruiterDemo = async () => {
     try {
-      await login({ email: "ganeshlonareofficial@gmail.com", password: "ganesh123" });
+      await login({ email: "ganeshlonare311@gmail.com", password: "ganesh123" });
       navigate("/dashboard/overview");
     } catch (err) {
       console.error("Demo login failed", err);
@@ -415,20 +415,20 @@ const ProductionNavbar = () => {
   // Render dropdown menu
   const renderDropdownMenu = (anchor: HTMLElement | null, menuData: any, onClose: () => void) => {
     const open = Boolean(anchor);
-    
+
     return (
       <Menu
         anchorEl={anchor}
         open={open}
         onClose={onClose}
         disableScrollLock={true}
-        PaperProps={{ 
-          sx: { 
-            minWidth: 280, 
+        PaperProps={{
+          sx: {
+            minWidth: 280,
             mt: 1,
             borderRadius: '12px',
             boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-          } 
+          }
         }}
         TransitionComponent={Grow}
       >
@@ -438,7 +438,7 @@ const ProductionNavbar = () => {
         </MenuItem>
         <Divider />
         {menuData.items.map((item: any, index: number) => (
-          <MenuItem 
+          <MenuItem
             key={index}
             disabled={item.disabled}
             onClick={() => {
@@ -452,23 +452,23 @@ const ProductionNavbar = () => {
             <ListItemIcon sx={{ color: item.color || theme.palette.primary.main }}>
               {item.icon}
             </ListItemIcon>
-            <ListItemText 
+            <ListItemText
               primary={item.title}
               secondary={item.description}
               primaryTypographyProps={{ fontWeight: 500 }}
               secondaryTypographyProps={{ fontSize: '0.85rem' }}
             />
             {item.badge && (
-              <Chip 
-                label={item.badge} 
-                size="small" 
-                sx={{ 
+              <Chip
+                label={item.badge}
+                size="small"
+                sx={{
                   ml: 1,
-                  bgcolor: `${theme.palette.primary.main}20`, 
+                  bgcolor: `${theme.palette.primary.main}20`,
                   color: theme.palette.primary.main,
                   fontSize: '0.7rem',
                   height: '20px'
-                }} 
+                }}
               />
             )}
           </MenuItem>
@@ -479,8 +479,8 @@ const ProductionNavbar = () => {
 
   return (
     <>
-      <StyledAppBar 
-        position="fixed" 
+      <StyledAppBar
+        position="fixed"
         elevation={0}
         sx={{
           transform: scrolled ? 'translateY(0)' : 'translateY(0)',
@@ -497,22 +497,22 @@ const ProductionNavbar = () => {
             {/* Desktop Navigation */}
             {!isMobile && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-                <NavButton 
+                <NavButton
                   onClick={handleLogoClick}
                   className={isActiveRoute('/') ? 'active' : ''}
                   startIcon={<HomeIcon />}
                 >
                   Home
                 </NavButton>
-                
-                <NavButton 
+
+                <NavButton
                   onClick={(e) => setResourceAnchor(resourceAnchor ? null : e.currentTarget)}
                   endIcon={<ArrowDropDownIcon />}
                 >
                   Resources
                 </NavButton>
 
-                <NavButton 
+                <NavButton
                   onClick={(e) => setCompanyAnchor(companyAnchor ? null : e.currentTarget)}
                   endIcon={<ArrowDropDownIcon />}
                 >
@@ -533,7 +533,7 @@ const ProductionNavbar = () => {
                 user ? (
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, cursor: 'pointer' }} onClick={handleUserMenuOpen}>
-                      <Avatar 
+                      <Avatar
                         src={`https://i.pravatar.cc/100?u=${encodeURIComponent(user.email)}`}
                         alt={displayName}
                         sx={{ width: 36, height: 36, border: `2px solid ${theme.palette.primary.main}` }}
@@ -654,14 +654,14 @@ const ProductionNavbar = () => {
                   <AccordionDetails sx={{ pl: 4 }}>
                     <List sx={{ p: 0 }}>
                       {navigationStructure.resources.items.map((item: any, index: number) => (
-                        <ListItem 
+                        <ListItem
                           key={index}
                           button={!item.disabled as any}
                           disabled={item.disabled}
-                          onClick={() => { 
+                          onClick={() => {
                             if (!item.disabled) {
-                              navigate(item.path); 
-                              setMobileMenuOpen(false); 
+                              navigate(item.path);
+                              setMobileMenuOpen(false);
                             }
                           }}
                           sx={{ pl: 2 }}
@@ -684,14 +684,14 @@ const ProductionNavbar = () => {
                   <AccordionDetails sx={{ pl: 4 }}>
                     <List sx={{ p: 0 }}>
                       {navigationStructure.company.items.map((item: any, index: number) => (
-                        <ListItem 
+                        <ListItem
                           key={index}
                           button={!item.disabled as any}
                           disabled={item.disabled}
-                          onClick={() => { 
+                          onClick={() => {
                             if (!item.disabled) {
-                              navigate(item.path); 
-                              setMobileMenuOpen(false); 
+                              navigate(item.path);
+                              setMobileMenuOpen(false);
                             }
                           }}
                           sx={{ pl: 2 }}
@@ -709,7 +709,7 @@ const ProductionNavbar = () => {
               {user && (
                 <Box sx={{ mt: 3, pt: 3, borderTop: '1px solid' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                    <Avatar 
+                    <Avatar
                       src={`https://i.pravatar.cc/100?u=${encodeURIComponent(user.email)}`}
                       alt={displayName}
                       sx={{ width: 48, height: 48 }}

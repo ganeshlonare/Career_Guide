@@ -95,17 +95,6 @@ public class GeminiApiService {
     }
 
     /**
-     * ✅ OPTIMIZED Industry Insights Prompt (50% reduction)
-     */
-    private String buildIndustryInsightsPrompt(String industry) {
-        return String.format("""
-            Analyze %s industry in JSON: {salaryRanges:[{role,min,max,median}],growthRate:number,
-            demandLevel:"High|Medium|Low",topSkills:[5],marketOutlook:"Positive|Neutral|Negative",
-            keyTrends:[5],recommendedSkills:[5]}
-            """, industry != null && !industry.isBlank() ? industry : "technology");
-    }
-
-    /**
      * Weekly plan prompt
      */
     private String buildWeeklyPlanPrompt(String roadmapData, int weekNumber) {
@@ -160,15 +149,6 @@ public class GeminiApiService {
     public String generateRoadmap(User user, OnboardingData onboarding, QuizResult quizResult) {
         log.info("Generating roadmap for user: {}", user.getEmail());
         String prompt = buildRoadmapPrompt(user, onboarding, quizResult);
-        return callGeminiWithRetry(prompt, 0);
-    }
-
-    /**
-     * Generate industry insights with retry logic
-     */
-    public String generateIndustryInsights(String industry) {
-        log.info("Generating industry insights for: {}", industry);
-        String prompt = buildIndustryInsightsPrompt(industry);
         return callGeminiWithRetry(prompt, 0);
     }
 

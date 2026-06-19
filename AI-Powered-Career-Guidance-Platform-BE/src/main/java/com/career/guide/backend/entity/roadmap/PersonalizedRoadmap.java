@@ -20,8 +20,8 @@ public class PersonalizedRoadmap {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@OneToOne
+	@JoinColumn(name = "user_id", unique = true)
 	private User user;
 
 	private String title;
@@ -61,6 +61,6 @@ public class PersonalizedRoadmap {
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
-	@OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL)
-	private List<WeeklyPlan> weeklyPlans;
+	@OneToOne(mappedBy = "roadmap", cascade = CascadeType.ALL)
+	private WeeklyPlan weeklyPlan;
 }

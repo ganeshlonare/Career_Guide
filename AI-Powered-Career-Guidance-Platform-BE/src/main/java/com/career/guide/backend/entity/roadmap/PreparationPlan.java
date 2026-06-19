@@ -25,8 +25,8 @@ public class PreparationPlan {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "roadmap_id")
+    @OneToOne
+    @JoinColumn(name = "roadmap_id", unique = true)
     private PersonalizedRoadmap roadmap;
 
     // Raw AI output (may include text around JSON)

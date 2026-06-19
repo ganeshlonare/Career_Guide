@@ -116,7 +116,7 @@ public class RoadmapService {
     }
 
     public List<PersonalizedRoadmap> getUserRoadmaps(User user) {
-        return roadmapRepository.findByUserAndStatus(user, com.career.guide.backend.entity.enums.RoadmapStatus.ACTIVE);
+        return roadmapRepository.findByUserAndStatus(user, com.career.guide.backend.entity.enums.RoadmapStatus.ACTIVE).stream().toList();
     }
 
     public List<PersonalizedRoadmapResponse> getUserRoadmapsResponse(User user) {

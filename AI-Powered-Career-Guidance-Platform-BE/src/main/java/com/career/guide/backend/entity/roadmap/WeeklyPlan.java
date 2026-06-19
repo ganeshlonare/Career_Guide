@@ -18,12 +18,12 @@ public class WeeklyPlan {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@OneToOne
+	@JoinColumn(name = "user_id", unique = true)
 	private User user;
 
-	@ManyToOne
-	@JoinColumn(name = "roadmap_id")
+	@OneToOne
+	@JoinColumn(name = "roadmap_id", unique = true)
 	private PersonalizedRoadmap roadmap;
 
 	@Column(name = "week_number")

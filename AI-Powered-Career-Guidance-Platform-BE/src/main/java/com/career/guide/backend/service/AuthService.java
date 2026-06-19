@@ -1,6 +1,7 @@
 package com.career.guide.backend.service;
 
 import com.career.guide.backend.dto.auth.*;
+import com.career.guide.backend.config.JwtProperties;
 import com.career.guide.backend.dto.user.UserResponse;
 import com.career.guide.backend.entity.RefreshToken;
 import com.career.guide.backend.entity.User;
@@ -9,6 +10,7 @@ import com.career.guide.backend.repository.RefreshTokenRepository;
 import com.career.guide.backend.repository.UserRepository;
 import com.career.guide.backend.security.JwtService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AuthService {
 
 	private final UserRepository userRepository;
@@ -29,18 +32,7 @@ public class AuthService {
 	private final EmailService emailService;
 	private final GoogleTokenVerificationService googleTokenVerificationService;
 	private final ModelMapper modelMapper;
-
-	public AuthService(UserRepository userRepository, RefreshTokenRepository refreshTokenRepository,
-			PasswordEncoder passwordEncoder, JwtService jwtService, EmailService emailService,
-			GoogleTokenVerificationService googleTokenVerificationService, ModelMapper modelMapper) {
-		this.userRepository = userRepository;
-		this.refreshTokenRepository = refreshTokenRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.jwtService = jwtService;
-		this.emailService = emailService;
-		this.googleTokenVerificationService = googleTokenVerificationService;
-		this.modelMapper = modelMapper;
-	}
+	private final JwtProperties jwtProperties;
 
 	public AuthResponse register(RegisterRequest request) {
 		userRepository.findByEmail(request.getEmail()).ifPresent(u -> {
@@ -156,7 +148,7 @@ public class AuthService {
 		RefreshToken refreshTokenEntity = new RefreshToken();
 		refreshTokenEntity.setUser(user);
 		refreshTokenEntity.setToken(refreshToken);
-		refreshTokenEntity.setExpiresAt(LocalDateTime.now().plusDays(7)); // 7 days
+		refreshTokenEntity.setExpiresAt(LocalDateTime.now().plusDays(jwtProperties.getRefreshExpirationDays()));
 		refreshTokenRepository.save(refreshTokenEntity);
 		
 		UserResponse userResponse = modelMapper.map(user, UserResponse.class);

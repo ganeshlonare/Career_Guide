@@ -16,10 +16,6 @@ import org.springframework.context.annotation.Configuration;
         description = "Backend APIs for the AI-powered career guidance platform (auth, onboarding, quiz, roadmap, weekly plans, industry insights)",
         contact = @Contact(name = "CareerGuide", email = "support@careerguide.ai")
     ),
-    servers = {
-        @Server(url = "http://localhost:8080", description = "Local"),
-        @Server(url = "https://api.yourdomain.com", description = "Production")
-    },
     security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(

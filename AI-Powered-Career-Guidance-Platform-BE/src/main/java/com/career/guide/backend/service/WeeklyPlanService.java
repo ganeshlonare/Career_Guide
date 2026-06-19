@@ -58,7 +58,7 @@ public class WeeklyPlanService {
 	}
 
 	public List<WeeklyPlan> getUserWeeklyPlans(User user) {
-		return weeklyPlanRepository.findByUserOrderByWeekNumber(user);
+		return weeklyPlanRepository.findByUser(user).stream().toList();
 	}
 
 	public WeeklyPlan getWeeklyPlan(Long planId) {
@@ -107,8 +107,7 @@ public class WeeklyPlanService {
 	}
 
 	public WeeklyPlan getCurrentWeekPlan(User user) {
-		return weeklyPlanRepository.findByUserAndStatus(user, com.career.guide.backend.entity.enums.WeekStatus.IN_PROGRESS)
-				.stream().findFirst().orElse(null);
+		return weeklyPlanRepository.findByUserAndStatus(user, com.career.guide.backend.entity.enums.WeekStatus.IN_PROGRESS).orElse(null);
 	}
 
 	public WeeklyPlanResponse toWeeklyPlanResponse(WeeklyPlan plan) {

@@ -10,10 +10,12 @@ public class EmailService {
 
 	private final JavaMailSender mailSender;
 	private final String fromEmail;
+	private final String frontendUrl;
 
-	public EmailService(JavaMailSender mailSender, @Value("${app.mail.from}") String fromEmail) {
+	public EmailService(JavaMailSender mailSender, @Value("${app.mail.from}") String fromEmail, @Value("${app.frontend.url}") String frontendUrl) {
 		this.mailSender = mailSender;
 		this.fromEmail = fromEmail;
+		this.frontendUrl = frontendUrl;
 	}
 
 	public void sendVerificationEmail(String email, String token) {
@@ -21,7 +23,7 @@ public class EmailService {
 		message.setTo(email);
 		message.setFrom(fromEmail);
 		message.setSubject("Verify Your Email - Career Guidance Platform");
-		message.setText("Please click the link to verify your email: http://localhost:3000/verify-email?token=" + token);
+		message.setText("Please click the link to verify your email: " + frontendUrl + "/verify-email?token=" + token);
 		mailSender.send(message);
 	}
 
@@ -30,9 +32,7 @@ public class EmailService {
 		message.setTo(email);
 		message.setFrom(fromEmail);
 		message.setSubject("Reset Your Password - Career Guidance Platform");
-		message.setText("Please click the link to reset your password: http://localhost:3000/reset-password?token=" + token);
+		message.setText("Please click the link to reset your password: " + frontendUrl + "/reset-password?token=" + token);
 		mailSender.send(message);
 	}
 }
-
-

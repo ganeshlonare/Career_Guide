@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PersonalizedRoadmapRepository extends JpaRepository<PersonalizedRoadmap, Long> {
-	List<PersonalizedRoadmap> findByUserAndStatus(User user, RoadmapStatus status);
+	Optional<PersonalizedRoadmap> findByUserAndStatus(User user, RoadmapStatus status);
 	Optional<PersonalizedRoadmap> findByUserAndTargetRole(User user, String targetRole);
 	Optional<PersonalizedRoadmap> findFirstByUserOrderByCreatedAtAsc(User user);
 }

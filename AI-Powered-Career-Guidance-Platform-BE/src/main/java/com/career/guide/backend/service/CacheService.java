@@ -70,6 +70,10 @@ public class CacheService {
         return "weekly_plan:user:" + userId;
     }
     
+    public String getUserCacheKey(String email) {
+        return "user:email:" + email;
+    }
+    
     public String getDashboardCacheKey(Long userId) {
         return "dashboard:user:" + userId;
     }

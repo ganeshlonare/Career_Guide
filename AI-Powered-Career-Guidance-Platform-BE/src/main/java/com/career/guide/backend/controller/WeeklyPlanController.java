@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/weekly-plans")
+@RequestMapping("/weekly-plans")
 public class WeeklyPlanController {
 
     private final WeeklyPlanService weeklyPlanService;

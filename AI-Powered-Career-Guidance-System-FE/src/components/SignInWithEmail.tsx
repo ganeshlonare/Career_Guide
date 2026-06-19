@@ -159,10 +159,10 @@ const SignInWithEmail = () => {
     setSubmitting(true);
     try {
       // Set the values in state just so the UI updates
-      setEmail("ganeshlonareofficial@gmail.com");
+      setEmail("ganeshlonare311@gmail.com");
       setPassword("ganesh123");
       
-      await login({ email: "ganeshlonareofficial@gmail.com", password: "ganesh123" });
+      await login({ email: "ganeshlonare311@gmail.com", password: "ganesh123" });
       navigate("/verify-email");
     } catch (err: any) {
       setError(err?.message || "Demo login failed. Please try again.");
@@ -186,7 +186,7 @@ const SignInWithEmail = () => {
       } else if (!quizDone) {
         navigate("/assessment/instructions", { replace: true });
       } else {
-        navigate("/dashboard/overview", { replace: true });
+        navigate("/dashboard/roadmap", { replace: true });
       }
     }
   }, [user, navigate]);

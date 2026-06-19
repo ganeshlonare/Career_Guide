@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/roadmaps")
+@RequestMapping("/roadmaps")
 public class RoadmapController {
 
 	private final RoadmapService roadmapService;

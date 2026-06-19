@@ -70,8 +70,9 @@ const DashboardContent = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await dashboardApi.getDashboardData();
-        setDashboardData(response);
+        const response: any = await dashboardApi.getDashboardData();
+        // Handle API wrapper if present
+        setDashboardData(response.data ? response.data : response);
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
       } finally {

@@ -17,11 +17,9 @@ import org.springframework.lang.NonNull;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
-	private final UserRepository userRepository;
 
-	public JwtAuthenticationFilter(JwtService jwtService, UserRepository userRepository) {
+	public JwtAuthenticationFilter(JwtService jwtService) {
 		this.jwtService = jwtService;
-		this.userRepository = userRepository;
 	}
 
 	@Override
@@ -29,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			throws ServletException, java.io.IOException {
 		
 		// Skip JWT processing for Swagger/OpenAPI endpoints
-		String requestPath = request.getRequestURI();
+		String requestPath = request.getServletPath();
 		if (requestPath.startsWith("/v3/api-docs") || 
 		    requestPath.startsWith("/swagger-ui") || 
 		    requestPath.equals("/swagger-ui.html")) {
@@ -42,8 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			String token = authHeader.substring(7);
 			try {
 				String subject = jwtService.extractSubject(token);
-				User user = userRepository.findByEmail(subject).orElse(null);
-				if (user != null) {
+				if (subject != null) {
 					var auth = new UsernamePasswordAuthenticationToken(subject, null, java.util.Collections.emptyList());
 					auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(auth);

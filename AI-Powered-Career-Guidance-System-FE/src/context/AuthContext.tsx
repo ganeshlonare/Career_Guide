@@ -37,6 +37,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem(STORAGE_KEYS.authToken, t);
     localStorage.setItem(STORAGE_KEYS.refreshToken, rt);
     localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(u));
+    
+    // Sync local flags with backend state
+    if ((u as any).onboardingCompleted) {
+      localStorage.setItem('cg_onboarded', '1');
+    } else {
+      localStorage.removeItem('cg_onboarded');
+    }
+    
+    if ((u as any).quizCompleted) {
+      localStorage.setItem('cg_quiz_completed', '1');
+    } else {
+      localStorage.removeItem('cg_quiz_completed');
+    }
+
     setToken(t);
     setRefreshToken(rt);
     setUser(u);
@@ -46,6 +60,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem(STORAGE_KEYS.authToken);
     localStorage.removeItem(STORAGE_KEYS.refreshToken);
     localStorage.removeItem(STORAGE_KEYS.user);
+    localStorage.removeItem('cg_onboarded');
+    localStorage.removeItem('cg_quiz_completed');
     setToken(null);
     setRefreshToken(null);
     setUser(null);
